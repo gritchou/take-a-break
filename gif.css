@@ -1,0 +1,38 @@
+.take-a-break-container {
+	position: fixed;
+    z-index: 999999999999999999;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	justify-content: center;
+	font-size: 15px;
+}
+
+.take-a-break-container .take-a-break-title {
+	font-size: 3em;
+	color: white;
+}
+
+.take-a-break-container .take-a-break-gif {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.take-a-break-container .take-a-break-benjamin-button {
+	font-size: 2em;
+	color: white;
+	background-color: #4285f4;
+	border: 1px solid #4285f4;
+	border-radius: 4px;
+	padding: 0.2em 0.8em;
+	cursor: pointer;
+}
+
+.take-a-break-container .take-a-break-benjamin-button:hover {
+	background-color: #2b4f8a;
+}

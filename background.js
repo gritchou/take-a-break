@@ -3,46 +3,45 @@ const baseUrl = 'https://giphy.com/search/';
 const GIPHY_KEY = '';
 const GIPHY_API = 'https://api.giphy.com';
 
-let DELAY = 0.1;
-chrome.alarms.create("alarmaaaaaaa", { delayInMinutes: DELAY, periodInMinutes: DELAY });
-chrome.alarms.get("alarmaaaaaaa", (alarm) => console.log(alarm));
+const DEFAULT_SETTINGS = { delay: 0.1, api: 'random', keywords: 'trump' };
 
-const processRequest = (query) => {
-	chrome.storage.sync.get('search', (res) => {
-		let apiPromise;
-		if(res.search) {
-			apiPromise = new Promise((resolve) => {
-				chrome.storage.sync.get('limitation', (res) => {
-					resolve(`${GIPHY_API}/v1/gifs/search?api_key=${GIPHY_KEY}&q=${query}&limit=${res.limitation}`);
-				});
-			})
-				.then((api) => fetch(api))
-				.then((response) => response.json())
-				.then((json) => json.data[0].bitly_url)
-			;
-		} else {
-			apiPromise = fetch(`${GIPHY_API}/v1/gifs/random?api_key=${GIPHY_KEY}`)
-				.then((response) => response.json())
-				.then((json) => json.data.bitly_url)
-			;
-		}
-		apiPromise.then((gifUrl) => {
-			addToClipBoard(gifUrl);
+let DELAY = 0.1;
+chrome.alarms.create("alarma", { delayInMinutes: DELAY, periodInMinutes: DELAY });
+chrome.alarms.get("alarma", (alarm) => console.log(alarm));
+
+const settings = {
+	load: () => new Promise((resolve) => {
+		chrome.storage.sync.get(['settings'], (result) => {
+			return resolve(result.settings || DEFAULT_SETTINGS);
+		});
+	}),
+
+	save: (option) => new Promise((resolve) => {
+		return load().then((settings) => {
+			const updatedSettings = Object.assign(settings, option);
+			chrome.storage.sync.set({ settings: updatedSettings }, () => resolve());
+		});
+	}),
+};
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+	if (message.type === 'settings') {
+		sendResponse(message.action === 'load' ? settings.load() : settings.save(message.option));
+	}
+});
+
+const getRandomGif = () => {
+	let apiPromise = fetch(`${GIPHY_API}/v1/gifs/random?api_key=${GIPHY_KEY}`)
+		.then((response) => response.json())
+		.then((json) => json.data.images.original.url)
+	;
+	apiPromise.then((gifUrl) => {
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			chrome.tabs.sendMessage(tabs[0].id, { url: gifUrl });
 		});
 	});
 };
 
-const gifit = (info, tab) => {
-	if (info.menuItemId === 'gifit') {
-		const text = info.selectionText;
-		processRequest(text);
-	}
-};
-
 chrome.alarms.onAlarm.addListener((alarm) => {
-	// var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-	// gettingActiveTab.then((tabs) => {
-	// 	browser.pageAction.show(tabs[0].id);
-	// });
-	console.log(alarm);
+	getRandomGif();
 });

@@ -15,7 +15,21 @@
 		]
     },
 
-    "permissions": [
-        "alarms"
-    ]
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["gif.js"],
+            "css": ["gif.css"]
+        }
+    ],
+
+    "options_ui": {
+        "page": "options.html"
+    },
+
+	"permissions": [
+		"alarms",
+        "storage",
+        "activeTab"
+	]
 }
