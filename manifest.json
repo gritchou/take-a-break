@@ -19,8 +19,8 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["gif.js"],
-            "css": ["gif.css"]
+            "js": ["content-script.js"],
+            "css": ["content-script.css"]
         }
     ],
 
