@@ -1,33 +1,23 @@
-const DEFAULT_SETTINGS = { delay: 0.1, api: 'random', keywords: 'trump' };
-
 const load = () => new Promise((resolve) => {
-	// chrome.storage.sync.get(['settings'], (result) => {
-	// 	return resolve(result.settings || DEFAULT_SETTINGS);
-	// });
-	chrome.runtime.sendMessage({ type: 'settings', action: 'load' }, (settings) => {
-		console.log('loaded from background!', settings);
-		resolve(settings);
+	chrome.runtime.sendMessage({ type: 'config', action: 'load' }, (config) => {
+		resolve(config);
 	});
 });
 
 const save = (option) => new Promise((resolve) => {
-	return load().then((settings) => {
-		const updatedSettings = Object.assign(settings, option);
-		chrome.storage.sync.set({ settings: updatedSettings }, () => resolve());
-		chrome.runtime.sendMessage({ type: 'settings', settings: updatedSettings });
-	});
+	chrome.runtime.sendMessage({ type: 'config', action: 'save', option });
 });
 
-load().then((settings) => {
-	Object.keys(settings).forEach((key) => {
+load().then((config) => {
+	Object.keys(config).forEach((key) => {
 		const input = document.querySelector(`input[name=${key}]`);
 		switch (input.type) {
 			case 'text':
-				input.value = settings[key];
+				input.value = config[key];
 				break;
 			case 'radio':
-				document.querySelector(`input[name=${key}][value=${settings[key]}]`).checked = true;
-				// TODO: Check if event trigger needed
+				document.querySelector(`input[name=${key}][value=${config[key]}]`).checked = true;
+				key === 'api' && config[key] === 'search' && document.querySelector('.keywords').classList.add('keywords--visible');
 				break;
 		}
 	});

@@ -1,18 +1,19 @@
 {
-	"manifest_version": 2,
-	"name": "Take a Break",
-	"version": "0.0.1",
+    "manifest_version": 2,
+    "name": "Take a Break",
+    "version": "0.0.1",
 
-	"description": "Take a Break replaces pages content by gifs after a customizable amount of time.",
-	"homepage_url": "https://github.com/gritchou/take-a-break",
-	"icons": {
-		"128": "icons/owl.png"
-	},
+    "description": "Take a Break replaces pages content by gifs after a customizable amount of time.",
+    "homepage_url": "https://github.com/gritchou/take-a-break",
+    "icons": {
+        "128": "icons/owl.png"
+    },
 
-	"background": {
-		"scripts": [
-				"background.js"
-		]
+    "background": {
+        "scripts": [
+            "config.js",
+            "background.js"
+        ]
     },
 
     "content_scripts": [
@@ -27,9 +28,9 @@
         "page": "options.html"
     },
 
-	"permissions": [
-		"alarms",
+    "permissions": [
+        "alarms",
         "storage",
         "activeTab"
-	]
+    ]
 }

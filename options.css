@@ -1,4 +1,4 @@
 label { display: block; }
 
 .keywords { display: none; }
-.keywords .keywords--visible { display: block; }
+.keywords.keywords--visible { display: block; }
