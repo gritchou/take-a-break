@@ -33,6 +33,7 @@ section p { color: #666; }
 	top: -2px; left: -2px; right: -2px; bottom: -2px;
 	border: 2px solid #4285f4;
 	border-radius: 6px;
+	pointer-events: none;
 }
 
 .section-api .radios { display: flex; }

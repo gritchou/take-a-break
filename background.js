@@ -3,12 +3,17 @@ const baseUrl = 'https://giphy.com/search/';
 const GIPHY_KEY = '';
 const GIPHY_API = 'https://api.giphy.com';
 
-const createAlarm = (delay) => chrome.alarms.create('alarma', { delayInMinutes: delay, periodInMinutes: delay });
+const createAlarm = (delay) => chrome.alarms.create('alarma', { delayInMinutes: parseFloat(delay), periodInMinutes: parseFloat(delay) });
 
 let currentConfig;
 config.load().then((config) => {
 	currentConfig = config;
 	createAlarm(config.delay);
+});
+
+config.onUpdate((config) => {
+	currentConfig.delay !== config.delay && createAlarm(config.delay);
+	currentConfig = config;
 });
 
 const getRandomGif = () => {
