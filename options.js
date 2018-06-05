@@ -8,7 +8,10 @@ const save = (option) => new Promise((resolve) => {
 	chrome.runtime.sendMessage({ type: 'config', action: 'save', option });
 });
 
+const toggleKeywords = (state) => document.querySelector('.section-keywords').classList.toggle('section-keywords--visible', state);
+
 load().then((config) => {
+	toggleKeywords(config.api === 'search');
 	Object.keys(config).forEach((key) => {
 		const input = document.querySelector(`input[name=${key}]`);
 		switch (input.type) {
@@ -17,7 +20,6 @@ load().then((config) => {
 				break;
 			case 'radio':
 				document.querySelector(`input[name=${key}][value=${config[key]}]`).checked = true;
-				key === 'api' && config[key] === 'search' && document.querySelector('.keywords').classList.add('keywords--visible');
 				break;
 		}
 	});
@@ -25,7 +27,7 @@ load().then((config) => {
 	document.body.addEventListener('change', (event) => {
 		const input = event.target;
 		if (input.name === 'api') {
-			document.querySelector('.keywords').classList.toggle('keywords--visible', input.value === 'search');
+			toggleKeywords(input.value === 'search');
 		}
 
 		// TODO: Validate before saving
@@ -33,6 +35,10 @@ load().then((config) => {
 	});
 
 	document.querySelectorAll('input[type=text]').forEach((input) => input.addEventListener('keyup', (event) => {
+		if (event.key === 'Enter') {
+			input.blur();
+		}
+
 		// TODO: Validate before saving
 		save({ [input.name]: input.value });
 	}));

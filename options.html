@@ -4,20 +4,37 @@
 		<link rel="stylesheet" href="options.css">
 	</head>
 	<body>
-		<h4>Delay</h4>
-
-		<label><input name="delay" type="text" value="delay"/> minutes</label>
-
-		<h4>API</h4>
-
-		<label><input name="api" type="radio" value="random"/> random</label>
-		<label><input name="api" type="radio" value="search"/> search</label>
-
-		<label class="keywords">
-			<span>Search keywords</span>
-			<input name="keywords" type="text">
-		</label>
-
+		<h1>Options</h1>
+		<section class="section-delay">
+			<h2>Delay</h2>
+			<p>Here you can enter a number of minutes after which the extension will prompt you to take a well deserved break.</p>
+			<label class="input-label">
+				<input name="delay" type="text">
+				<span>minutes</span>
+			</label>
+		</section>
+		<section class="section-api">
+			<h2>API</h2>
+			<p>The extension can either present you with a random selection of moving pictures, or you can request a specific subset from Giphy.</p>
+			<div class="radios">
+				<label>
+					<input name="api" type="radio" value="random">
+					<span>random</span>
+				</label>
+				<label>
+					<input name="api" type="radio" value="search">
+					<span>search</span>
+				</label>
+			</div>
+		</section>
+		<section class="section-keywords">
+			<h2>Search Keywords</h2>
+			<p>Enter some keywords to get related pictures from Giphy.</p>
+			<label class="input-label">
+				<input name="keywords" type="text">
+				<span>🔍</span>
+			</label>
+		</section>
 		<script src="options.js"></script>
 	</body>
 </html>

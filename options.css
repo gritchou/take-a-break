@@ -1,4 +1,64 @@
-label { display: block; }
+* { box-sizing: border-box; }
 
-.keywords { display: none; }
-.keywords.keywords--visible { display: block; }
+section + section { margin-top: 20px; }
+section h2 {
+	margin: 0;
+	padding-bottom: 5px;
+	border-bottom: 2px solid #ccc;
+}
+section p { color: #666; }
+
+.input-label {
+	display: flex;
+	align-items: center;
+	position: relative;
+	padding: 3px 5px;
+	border: 2px solid #dedede;
+	border-radius: 6px;
+}
+
+.input-label input {
+	flex: 1;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: 1;
+	outline: 0;
+	border: 0;
+}
+
+.input-label span { margin-left: 10px; line-height: 1; }
+.input-label input:focus + span:before {
+	content: '';
+	position: absolute;
+	top: -2px; left: -2px; right: -2px; bottom: -2px;
+	border: 2px solid #4285f4;
+	border-radius: 6px;
+}
+
+.section-api .radios { display: flex; }
+.section-api .radios label { flex: 1; }
+.section-api .radios input { position: absolute; opacity: 0; pointer-events: none; }
+
+.section-api .radios span {
+	display: block;
+	padding: 5px;
+	text-align: center;
+	border: 2px solid #dedede;
+	cursor: pointer;
+}
+
+.section-api .radios input:focus + span {
+	box-shadow: 0 0 0 1px #4285f4 inset;
+}
+
+.section-api .radios input:checked + span {
+	background: #dedede;
+	font-weight: bold;
+}
+
+.section-api .radios label + label span { margin-left: -2px; }
+.section-api .radios label:first-of-type span { border-radius: 6px 0 0 6px; }
+.section-api .radios label:last-of-type span { border-radius: 0 6px 6px 0; }
+
+.section-keywords { display: none; }
+.section-keywords.section-keywords--visible { display: block; }
