@@ -9,13 +9,13 @@ const gifTemplate = `
 const listener = (message) => {
 	if (message.url) {
 		document.querySelector('.take-a-break-container') && document.querySelector('.take-a-break-container').remove();
-		body.insertAdjacentHTML('beforeend', gifTemplate);
+		document.body.insertAdjacentHTML('beforeend', gifTemplate);
 		document.querySelector('.take-a-break-gif img').src = message.url;
 		document.querySelector('.take-a-break-benjamin-button').addEventListener('click', goBackToWork);
 	}
 }
 
-chrome.runtime.onMessage.addListener(listener);
+browser.runtime.onMessage.addListener(listener);
 
 const goBackToWork = () => {
 	document.querySelector('.take-a-break-container').remove();
