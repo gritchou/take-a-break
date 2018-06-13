@@ -1,13 +1,5 @@
-const load = () => new Promise((resolve) => {
-	chrome.runtime.sendMessage({ type: 'config', action: 'load' }, (config) => {
-		resolve(config);
-	});
-});
-
-const save = (option) => new Promise((resolve) => {
-	chrome.runtime.sendMessage({ type: 'config', action: 'save', option });
-});
-
+const load = () => browser.runtime.sendMessage({ type: 'config', action: 'load' });
+const save = (option) => browser.runtime.sendMessage({ type: 'config', action: 'save', option });
 const toggleKeywords = (state) => document.querySelector('.section-keywords').classList.toggle('section-keywords--visible', state);
 
 load().then((config) => {
@@ -30,7 +22,6 @@ load().then((config) => {
 			toggleKeywords(input.value === 'search');
 		}
 
-		// TODO: Validate before saving
 		save({ [input.name]: input.value });
 	});
 
@@ -39,7 +30,6 @@ load().then((config) => {
 			input.blur();
 		}
 
-		// TODO: Validate before saving
 		save({ [input.name]: input.value });
 	}));
 });

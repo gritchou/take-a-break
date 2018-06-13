@@ -3,7 +3,7 @@ const baseUrl = 'https://giphy.com/search/';
 const GIPHY_KEY = '';
 const GIPHY_API = 'https://api.giphy.com';
 
-const createAlarm = (delay) => chrome.alarms.create('alarma', { delayInMinutes: parseFloat(delay), periodInMinutes: parseFloat(delay) });
+const createAlarm = (delay) => browser.alarms.create('alarma', { delayInMinutes: parseFloat(delay), periodInMinutes: parseFloat(delay) });
 
 let currentConfig;
 config.load().then((config) => {
@@ -22,7 +22,7 @@ const getRandomGif = () => {
 		: `${GIPHY_API}/v1/gifs/search?api_key=${GIPHY_KEY}&q=${currentConfig.keywords}`
 	;
 
-	let apiPromise = fetch(apiUrl)
+	const apiPromise = fetch(apiUrl)
 		.then((response) => response.json())
 		.then((json) => {
 			if (Array.isArray(json.data)) {
@@ -32,14 +32,20 @@ const getRandomGif = () => {
 
 			return json.data.images.original.url;
 		})
+		.catch((e) => console.log('meh', e))
 	;
-	apiPromise.then((gifUrl) => {
-		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-			chrome.tabs.sendMessage(tabs[0].id, { url: gifUrl });
-		});
-	});
+
+	const tabPromise = browser.tabs.query({ active: true, currentWindow: true })
+		.then((tabs) => tabs[0])
+	;
+
+	Promise.all([apiPromise, tabPromise])
+		.then(([gifUrl, tab]) => {
+			tab && browser.tabs.sendMessage(tab.id, { url: gifUrl });
+		})
+	;
 };
 
-chrome.alarms.onAlarm.addListener((alarm) => {
+browser.alarms.onAlarm.addListener((alarm) => {
 	getRandomGif();
 });
