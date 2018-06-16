@@ -1,5 +1,14 @@
 {
   "name": "take-a-break",
   "version": "0.0.1",
-  "script": {}
+  "script": {
+      "start": "webextension-toolbox dev chrome",
+      "build:chrome": "webextension-toolbox build chrome"
+  },
+  "dependencies": {
+    "webextension-toolbox": "^1.1.1"
+  },
+  "devDependencies": {
+    "web-ext-types": "^2.1.0"
+  }
 }

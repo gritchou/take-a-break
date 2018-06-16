@@ -1,0 +1,23 @@
+const GIPHY_API_ROOT = 'https://api.giphy.com/v1/gifs';
+const GIPHY_API_KEY = '';
+
+export default {
+	async get(mode, keywords) {
+		const url = `${GIPHY_API_ROOT}/${mode}?api_key=${GIPHY_API_KEY}` + (mode === 'search' && `&q=${encodeURIComponent(keywords)}` || '');
+		return fetch(url)
+			.then((result) => result.json())
+			.then(({ data }) => {
+				if (!data || !data.length) {
+					return undefined;
+				}
+
+				if (Array.isArray(data)) {
+					const index = Math.floor(Math.random() * data.length);
+					return data[index].images.original.url;
+				}
+
+				return data.images.original.url;
+			})
+		;
+	}
+};

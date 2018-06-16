@@ -1,17 +1,17 @@
-const load = () => browser.runtime.sendMessage({ type: 'config', action: 'load' });
-const save = (option) => browser.runtime.sendMessage({ type: 'config', action: 'save', option });
+import config from './lib/config';
+
 const toggleKeywords = (state) => document.querySelector('.section-keywords').classList.toggle('section-keywords--visible', state);
 
-load().then((config) => {
-	toggleKeywords(config.api === 'search');
-	Object.keys(config).forEach((key) => {
+config.load().then((data) => {
+	toggleKeywords(data.api === 'search');
+	Object.keys(data).forEach((key) => {
 		const input = document.querySelector(`input[name=${key}]`);
 		switch (input.type) {
 			case 'text':
-				input.value = config[key];
+				input.value = data[key];
 				break;
 			case 'radio':
-				document.querySelector(`input[name=${key}][value=${config[key]}]`).checked = true;
+				document.querySelector(`input[name=${key}][value=${data[key]}]`).checked = true;
 				break;
 		}
 	});
@@ -22,7 +22,7 @@ load().then((config) => {
 			toggleKeywords(input.value === 'search');
 		}
 
-		save({ [input.name]: input.value });
+		config.save({ [input.name]: input.value });
 	});
 
 	document.querySelectorAll('input[type=text]').forEach((input) => input.addEventListener('keyup', (event) => {
@@ -30,6 +30,6 @@ load().then((config) => {
 			input.blur();
 		}
 
-		save({ [input.name]: input.value });
+		config.save({ [input.name]: input.value });
 	}));
 });

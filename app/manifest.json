@@ -10,17 +10,13 @@
     },
 
     "background": {
-        "scripts": [
-            "browser-polyfill.js",
-            "config.js",
-            "background.js"
-        ]
+        "scripts": ["background.js"]
     },
 
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["browser-polyfill.js", "content-script.js"],
+            "js": ["content-script.js"],
             "css": ["content-script.css"]
         }
     ],
