@@ -1,14 +1,23 @@
 {
-  "name": "take-a-break",
-  "version": "0.0.1",
-  "script": {
-      "start": "webextension-toolbox dev chrome",
-      "build:chrome": "webextension-toolbox build chrome"
-  },
-  "dependencies": {
-    "webextension-toolbox": "^1.1.1"
-  },
-  "devDependencies": {
-    "web-ext-types": "^2.1.0"
-  }
+    "name": "take-a-break",
+    "version": "0.0.1",
+    "description": "Take a Break replaces pages content by gifs after a customizable amount of time.",
+    "scripts": {
+        "start": "webextension-toolbox dev chrome",
+        "build": "npm run -s build:chrome && npm run -s build:edge && npm run -s build:firefox",
+        "build:chrome": "webextension-toolbox build chrome",
+        "build:edge": "webextension-toolbox build edge",
+        "build:firefox": "webextension-toolbox build firefox"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gritchou/take-a-break.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "webextension-toolbox": "^1.1.1"
+    },
+    "devDependencies": {
+        "web-ext-types": "^2.1.0"
+    }
 }
