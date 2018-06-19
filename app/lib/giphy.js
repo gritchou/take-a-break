@@ -12,7 +12,7 @@ export default {
 		return fetch(url)
 			.then((result) => result.json())
 			.then(({ data }) => {
-				if (!data || !data.length) {
+				if (!data && !data.length) {
 					return undefined;
 				}
 
