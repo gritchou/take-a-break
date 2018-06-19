@@ -19,6 +19,8 @@ const getNewGif = async () => {
 	const tab = await browser.tabs.query({ active: true, currentWindow: true })
 		.then((tabs) => tabs[0])
 	;
+	var audio = new Audio('./resources/casio_hour_chime.mp3');
+	audio.play();
 
 	gif && tab && browser.tabs.sendMessage(tab.id, { url: gif });
 };
