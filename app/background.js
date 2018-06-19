@@ -9,9 +9,11 @@ config.load().then((config) => {
 	createAlarm(config.delay);
 });
 
-config.onUpdate((config) => {
-	currentConfig.delay !== config.delay && createAlarm(config.delay);
-	currentConfig = config;
+browser.storage.onChanged.addListener(({ config }) => {
+	if (config) {
+		currentConfig.delay !== config.newValue.delay && createAlarm(config.newValue.delay);
+		currentConfig = config.newValue;
+	}
 });
 
 const getNewGif = async () => {
